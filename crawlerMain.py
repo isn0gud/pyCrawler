@@ -10,11 +10,18 @@ t = 0.05
 delta = 0.04
 iter = 3
 
-def sum1(pi, graph, ranks, i):
+def sum1(pi, graph, ranks, linkCount):
     summe = 0
     for pj in graph:
-        print(pj)
-       # if pj.contains(pi):
+        listOflinksOfPj = graph.get(pj)
+        if pi in listOflinksOfPj:
+            print("**********")
+            print(pj)
+            print("has links to:")
+            #pj contains pi mach die summe
+            print(pi)
+            print("links of Pj")
+            print(listOflinksOfPj)
         #    sum += (ranks[i][graph.])
 
 
