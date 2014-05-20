@@ -41,6 +41,44 @@ def pageRank(graph, ranks):
             ranks[step][linkNum] = d * (sum1(link, graph, ranks, linkNum, step) + sum2(graph, ranks, step)) +t/len(graph)
             linkNum += 1
 
+def makeIndex(sites):
+
+    index = dict()
+
+    wordsWithOrigin = list()
+    for site in sites:
+        file = request.urlopen(site)
+        soup = BeautifulSoup(file)
+        text = soup.get_text()
+        words = text.lower().split()
+        punctuationMarks = ['!',',','.',':','"','?','-',';','(',')','[',']','\\','/']
+        for word in words:
+            for mark in punctuationMarks:
+                if mark in word:
+                    word = word.replace(mark,"")
+        wordsWithOrigin.append((word,site))
+
+    for word in wordsWithOrigin:
+        if word[0] not in index:
+            index[word[0]] = list()
+            index[word[0]].append([1,[word[1],1]])
+        else:
+            index[word[0]][0] = index[word[0]][0] + 1
+            for site in index[word[0]]:
+                #dafuq is happening here?
+
+
+
+
+    index = dict()
+    counter = 0
+    for entry in index:
+        index.append()
+        index[]
+        for site ind entry:
+            site
+        counter = counter + 1
+
 def main(argv):
     listToVisit = ["http://mysql12.f4.htw-berlin.de/crawl/d01.html",
                "http://mysql12.f4.htw-berlin.de/crawl/d06.html",
@@ -65,9 +103,8 @@ def main(argv):
     graph = OrderedDict(sorted(graph.items(), key=lambda t: t[0]))
     ranks = [[0 for y in range(0,len(graph))] for x in range(0,iterSites)]
     pageRank(graph, ranks)
-#print pagerank
-    for row in ranks:
-        print(row)
+    index = makeIndex(listVisited)
+
              
 if __name__ == "__main__": main(sys.argv)
 
