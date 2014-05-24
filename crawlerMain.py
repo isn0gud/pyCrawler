@@ -42,31 +42,31 @@ def pageRank(graph, ranks):
             ranks[step][linkNum] = d * (sum1(link, graph, ranks, linkNum, step) + sum2(graph, ranks, step)) +t/len(graph)
             linkNum += 1
 
-def makeIndex(sites):
-
-    index = dict()
-
-    wordsWithOrigin = list()
-    for site in sites:
-        file = request.urlopen(site)
-        soup = BeautifulSoup(file)
-        text = soup.get_text()
-        words = text.lower().split()
-        punctuationMarks = ['!',',','.',':','"','?','-',';','(',')','[',']','\\','/']
-        for word in words:
-            for mark in punctuationMarks:
-                if mark in word:
-                    word = word.replace(mark,"")
-        wordsWithOrigin.append((word,site))
-
-    for word in wordsWithOrigin:
-        if word[0] not in index:
-            index[word[0]] = list()
-            index[word[0]].append([1,[word[1],1]])
-        else:
-            index[word[0]][0] = index[word[0]][0] + 1
-            for site in index[word[0]]:
-                bla = 0
+# def makeIndex(sites):
+#  
+#     index = dict()
+#  
+#     wordsWithOrigin = list()
+#     for site in sites:
+#         file = request.urlopen(site)
+#         soup = BeautifulSoup(file)
+#         text = soup.get_text()
+#         words = text.lower().split()
+#         punctuationMarks = ['!',',','.',':','"','?','-',';','(',')','[',']','\\','/']
+#         for word in words:
+#             for mark in punctuationMarks:
+#                 if mark in word:
+#                     word = word.replace(mark,"")
+#         wordsWithOrigin.append((word,site))
+#  
+#     for word in wordsWithOrigin:
+#         if word[0] not in index:
+#             index[word[0]] = list()
+#             index[word[0]].append([1,[word[1],1]])
+#         else:
+#             index[word[0]][0] = index[word[0]][0] + 1
+#             for site in index[word[0]]:
+#                 bla = 0
 
 
 def dansIndex(sites):
@@ -131,6 +131,7 @@ def getListOfDocumentsContainingTerms(termList, index):
             for document in index[term][1].keys():
                 if document not in listOfDocuments:
                     listOfDocuments.append(document)
+    return listOfDocuments
 
 def calculateScore(documentVector, searchVector):
     numerator = 0
@@ -236,7 +237,7 @@ def main(argv):
     ranks = [[0 for y in range(0,len(graph))] for x in range(0,iterSites)]
     pageRank(graph, ranks)
     index = dansIndex(listVisited)
-    searchTerm= "bla"
+    searchTerm= ""
     resultList = getResultsWithScore(searchTerm, index, len(listVisited))
 
              
