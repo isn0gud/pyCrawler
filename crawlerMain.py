@@ -206,6 +206,14 @@ def getTermFrequencyInDocument(term, document, index):
         return 0
 
 
+def combineSearchPageRank(searchResults, ranks, graph):
+    for i in range(0, len(searchResults) - 1):
+        #print(searchResults[i][1] + " = " + list(graph.keys())[list(graph.keys()).index(searchResults[i][1])] )
+        searchResults[i][0] = searchResults[i][0] * ranks[3][list(graph.keys()).index(searchResults[i][1])]
+       
+def getKey(item):
+    return item[0] 
+
 def main(argv):
     listToVisit = ["http://mysql12.f4.htw-berlin.de/crawl/d01.html",
                    "http://mysql12.f4.htw-berlin.de/crawl/d06.html",
@@ -231,14 +239,19 @@ def main(argv):
     ranks = [[0 for y in range(0, len(graph))] for x in range(0, iterSites)]
     pageRank(graph, ranks)
     index = makeIndex(listVisited)
-    index = OrderedDict(sorted(index.items(), key=lambda t: t[0]))
-    #for item in graph.items():
-    #    print(item)
-    searchTerm = "tokens classification"
+    index = OrderedDict(sorted(index.items(), key=lambda t: t[0]))   
+    searchTerm = str(sys.argv[1]);
+    if (str(sys.argv[2]) != ""):
+        searchTerm += " " + str(sys.argv[2]);
+    print(searchTerm + ":")
     resultList = getResultsWithScore(searchTerm, index, len(listVisited))
+    #for item in resultList:
+    #    print(item)
+    #print("----")
+    combineSearchPageRank(resultList, ranks, graph)
+    resultList.sort(key=getKey, reverse=True)
     for item in resultList:
         print(item)
-
 if __name__ == "__main__": main(sys.argv)
 
 
