@@ -6,15 +6,15 @@ from builtins import print
 from collections import OrderedDict
 import math
 
-__author__ = 's0540030,s0540040,s054XXX'
+__author__ = 's0540030,s0540040,s0539748'
 
 d = 0.95
 t = 0.05
 delta = 0.04
 iterSites = 4
 
-
-def sum1(pi, graph, ranks, linkCount, currentIteration):
+#PageRank
+def sum1(pi, graph, ranks, currentIteration):
     summe = 0
     indexOfPj = 0
     for pj in graph:
@@ -41,11 +41,12 @@ def pageRank(graph, ranks):
     for step in range(1, iterSites):
         linkNum = 0
         for link in graph.keys():
-            ranks[step][linkNum] = d * (sum1(link, graph, ranks, linkNum, step) + sum2(graph, ranks, step)) + t / len(
+            ranks[step][linkNum] = d * (sum1(link, graph, ranks, step) + sum2(graph, ranks, step)) + t / len(
                 graph)
             linkNum += 1
+#~PageRank
 
-
+#score
 def makeIndex(sites):
     index = dict()
 
@@ -239,9 +240,11 @@ def main(argv):
     ranks = [[0 for y in range(0, len(graph))] for x in range(0, iterSites)]
     pageRank(graph, ranks)
     index = makeIndex(listVisited)
-    index = OrderedDict(sorted(index.items(), key=lambda t: t[0]))   
-    searchTerm = str(sys.argv[1]);
-    if (str(sys.argv[2]) != ""):
+    index = OrderedDict(sorted(index.items(), key=lambda t: t[0]))
+    searchTerm = ""
+    if(len(sys.argv) > 1):
+        searchTerm = str(sys.argv[1]);
+    if (len(sys.argv)>2):
         searchTerm += " " + str(sys.argv[2]);
     print(searchTerm + ":")
     resultList = getResultsWithScore(searchTerm, index, len(listVisited))
